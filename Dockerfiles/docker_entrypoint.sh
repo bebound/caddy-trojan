@@ -9,7 +9,8 @@ if [[ "$MYDOMAIN" == "1.1.1.1.nip.io" || "$MYDOMAIN" == "MY_DOMAIN.COM" ]]; then
 fi
 
 # config
-cat <<EOF >/etc/caddy/Caddyfile
+if [ ! -f /etc/caddy/Caddyfile ]; then
+    cat <<EOF >/etc/caddy/Caddyfile
 {
     order trojan before route
     servers :443 {
@@ -36,6 +37,7 @@ cat <<EOF >/etc/caddy/Caddyfile
     }
 }
 EOF
+fi
 
 # start
 caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
